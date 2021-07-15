@@ -3,35 +3,44 @@
 
 import React, {useState} from "react";
 import {Card, Row, Col, Button, Modal, Spinner} from "react-bootstrap";
-import {API} from "aws-amplify";
+
+const axios = require('axios');
+const amplifyConfig = require("../amplify-config.json")
 
 function MainRequest(props) {
   const [json, setJson] = useState(null);
   const [show, setShow] = useState(false);
 
-  async function handleSubmit() {
-    setShow(true);
-    const response = await getData();
-    setJson(response);
-  }
+    async function handleSubmit() {
+
+        setShow(true);
+        try {
+            const response = await getData();
+            setJson(response.data);
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
   function handleClose() {
     setJson(null);
     setShow(!show);
   }
 
-  function getData() {
-    const apiName = "MyBlogPostAPI";
-    const path = "/Dev/blog";
-    const myInit = {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: props.token
-      }
-    };
-    return API.get(apiName, path, myInit);
-  }
+    function getData() {
+        const host = amplifyConfig.API.endpoints
+        const path = "/Dev/blog";
+        const myInit = {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: props.token
+            }
+        };
+
+        return axios.get(`${host}${path}`, myInit)
+
+    }
 
   return (
     <>

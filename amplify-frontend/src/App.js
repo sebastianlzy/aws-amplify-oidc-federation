@@ -9,32 +9,28 @@ import Navigation from "./components/Navigation.js";
 import FederatedSignIn from "./components/FederatedSignIn.js";
 import MainRequest from "./components/MainRequest.js";
 import "./App.css";
+import amplifyConfig from './amplify-config.json'
 
-Amplify.configure({
-  Auth: {
-    region: "<enter the region here>",
-    userPoolId: "<enter the cognito user pool id here>",
-    userPoolWebClientId: "<enter the applicaiton client id>",
-    oauth: {
-      domain: "<enter here the amazon cognito domain>",
-      scope: ["email", "openid", "aws.cognito.signin.user.admin", "profile"],
-      redirectSignIn: "<enter here the amplify hosted url>",
-      redirectSignOut: "<enter here the amplify hosted url>",
-      responseType: "code"
-    }
-  },
-  API: {
-    endpoints: [
-      {
-        name: "MyBlogPostAPI",
-        endpoint: "<enter here the API gateway endpoint url>"
-      }
-    ]
-  }
-});
+Amplify.configure(amplifyConfig)
+// Amplify.Logger.LOG_LEVEL = 'DEBUG';
+
+// Amplify.configure({
+//   Auth: {
+//     region: "<enter the region here>",
+//     userPoolId: "<enter the cognito user pool id here>",
+//     userPoolWebClientId: "<enter the applicaiton client id>",
+//     oauth: {
+//       domain: "<enter here the amazon cognito domain>",
+//       scope: ["email", "openid", "aws.cognito.signin.user.admin", "profile"],
+//       redirectSignIn: "<enter here the amplify hosted url>",
+//       redirectSignOut: "<enter here the amplify hosted url>",
+//       responseType: "code"
+//     }
+//   }
+// });
 
 const federatedIdName =
-  "<name of the Identity Provider as configured in Cognito>";
+  "okta-idp-provider-name";
 
 function App() {
   const [token, setToken] = useState(null);

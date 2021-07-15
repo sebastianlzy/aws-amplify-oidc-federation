@@ -2,3 +2,4 @@
 outputtemplate.yaml
 .DS_Store
 .vscode
+Makefile.local
